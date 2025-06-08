@@ -86,6 +86,26 @@ jobs:
       - name: Run acceptance tests
         run: npm run test:acceptance
 
+      - name: Run K6 performance tests and upload summary
+        run: |
+          sudo apt-get update && sudo apt-get install -y gnupg ca-certificates
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 33EEC9F5
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update && sudo apt-get install -y k6
+
+          k6 run tests/performance/performance_test.js --summary-export=summary.json
+
+          mkdir -p artifacts
+          mv summary.json artifacts/
+
+        # Uploads summary.json as artifact
+      - name: Upload performance summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-summary
+          path: artifacts/summary.json
+
+
       - name: Stop and remove test container
         if: always()
         run: |
@@ -100,7 +120,7 @@ jobs:
         run: |
           echo "Publish successfull image To Registry"
 
-          
+
   release:
     name: Release - Deploy to Production
     needs: acceptance
