@@ -16,7 +16,7 @@ stdout: textSummary(data, { indent: ' ', enableColors: true }),
 const errorRate = new Rate('errors');
 
 // Configurable parameters
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = __ENV.BASE_URL || 'http://localhost:3000';
 
 export const options = {
   vus: 20,
