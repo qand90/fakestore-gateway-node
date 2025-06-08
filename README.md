@@ -1,3 +1,42 @@
+### ✅ Interview Prerequisites
+
+Make sure the following tools and setup are available before starting the interview tasks:
+
+#### Local Environment
+
+* [Node.js](https://nodejs.org/) v20+
+* [npm](https://www.npmjs.com/) (comes with Node)
+* [Docker](https://www.docker.com/) installed and running
+* A REST client such as:
+
+  * [curl](https://curl.se/)
+  * [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/)
+* Git installed and configured
+* A modern code editor (e.g., [VS Code](https://code.visualstudio.com/))
+
+#### Performance Testing Tools
+
+You may use **any** performance testing tool of your choice below:
+
+* [k6](https://k6.io/)
+* [Gatling](https://gatling.io/)
+* [Locust](https://locust.io/)
+* [JMeter](https://jmeter.apache.org/)
+
+#### Access
+
+* Internet connection (required to access upstream FakeStore API)
+* GitHub account
+
+#### Recommended Skills
+
+* Familiarity with Node.js, Express, and RESTful APIs
+* Basic Docker usage (build images, run containers, map ports)
+* Understanding of performance testing concepts: throughput, latency, error rate, concurrency
+* CI/CD familiarity,e.g. GitHub Actions (helpful, but not mandatory)
+* Basic understanding of **mocking concepts** (e.g., intercepting upstream dependencies for isolated testing)
+
+
 # 🧪 FakeStore Gateway (Node.js)
 
 This is a lightweight **Node.js gateway app** that authenticates users and proxies requests to the [FakeStore API](https://fakestoreapi.com/). It's designed for testing, learning, and performance engineering interview scenarios.
