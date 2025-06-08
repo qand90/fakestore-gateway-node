@@ -86,17 +86,14 @@ jobs:
       - name: Run acceptance tests
         run: npm run test:acceptance
 
-      - name: Run K6 performance tests and upload summary
+      - name: Run K6 performance tests in Docker
         run: |
-          sudo apt-get update && sudo apt-get install -y gnupg ca-certificates
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 33EEC9F5
-          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
-          sudo apt-get update && sudo apt-get install -y k6
+          docker run --rm \
+            -v ${{ github.workspace }}:/k6 \
+            -w /k6 \
+            grafana/k6 run tests/performance/performance_test.js \
+            --summary-export=artifacts/summary.json
 
-          k6 run tests/performance/performance_test.js --summary-export=summary.json
-
-          mkdir -p artifacts
-          mv summary.json artifacts/
 
         # Uploads summary.json as artifact
       - name: Upload performance summary
