@@ -4,8 +4,9 @@
   "description": "This is repository for Performance engineering inteview",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node index.js",
+  "test": "jest"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,5 +16,9 @@
     "express": "^5.1.0",
     "js-yaml": "^4.1.0",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.1"
   }
 }
