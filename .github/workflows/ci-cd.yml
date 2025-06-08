@@ -92,6 +92,15 @@ jobs:
           docker stop test-container
           docker rm test-container
 
+      - name: Login to Docker Hub
+        run: |
+          echo "Login to Docker Hub"
+
+      - name: Build and push Docker image
+        run: |
+          echo "Publish successfull image To Registry"
+
+          
   release:
     name: Release - Deploy to Production
     needs: acceptance
@@ -105,17 +114,13 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "Login to Docker Hub"
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ env.IMAGE_NAME }}:latest .
-          docker tag ${{ env.IMAGE_NAME }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          echo "Pull image from Registry"
 
       - name: Deploy to production
         run: |
-          echo "Implement your deployment steps here"
+          echo "Deploy to PROD"
