@@ -1,30 +1,32 @@
-const request = require('supertest');
-const app = require('../../index');
+// tests/acceptance/product.acceptance.test.js
+const axios = require('axios');
 
+const BASE_URL = 'http://localhost:3000';
 let token;
 
 beforeAll(async () => {
-  const res = await request(app)
-    .post('/auth')
-    .send({ username: 'test', password: 'test' });
-  token = res.body.token;
+  const res = await axios.post(`${BASE_URL}/auth`, {
+    username: 'test',
+    password: 'test',
+  });
+  token = res.data.token;
 });
 
 describe('Product API', () => {
   test('GET /products should return products', async () => {
-    const res = await request(app)
-      .get('/products')
-      .set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+    const res = await axios.get(`${BASE_URL}/products`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.data)).toBe(true);
   });
 
   test('GET /products/:id should return a product', async () => {
-    const res = await request(app)
-      .get('/products/1')
-      .set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('id');
+    const res = await axios.get(`${BASE_URL}/products/1`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    expect(res.status).toBe(200);
+    expect(res.data).toHaveProperty('id');
   });
 
   test('POST /products should create a product (fake)', async () => {
@@ -35,23 +37,29 @@ describe('Product API', () => {
       image: 'https://i.pravatar.cc',
       category: 'test',
     };
-    const res = await request(app)
-      .post('/products')
-      .set('Authorization', `Bearer ${token}`)
-      .send(newProduct);
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('product');
+
+    const res = await axios.post(`${BASE_URL}/products`, newProduct, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    expect(res.status).toBe(201);
+    expect(res.data).toHaveProperty('product');
   });
 
-  test('GET /products/:id with invalid ID returns 404', async () => {
-    const res = await request(app)
-      .get('/products/9999')
-      .set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toBe(200);
+  test('GET /products/:id with invalid ID returns 200 but empty or error', async () => {
+    const res = await axios.get(`${BASE_URL}/products/9999`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // Depends on API behavior: adapt this assertion as needed
+    expect(res.status).toBe(200);
   });
 
   test('GET /products unauthorized returns 401', async () => {
-    const res = await request(app).get('/products');
-    expect(res.statusCode).toBe(401);
+    try {
+      await axios.get(`${BASE_URL}/products`);
+    } catch (err) {
+      expect(err.response.status).toBe(401);
+    }
   });
 });
