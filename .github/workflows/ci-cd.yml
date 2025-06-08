@@ -39,9 +39,14 @@ jobs:
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
-      - name: Save Docker image ID for next jobs
-        id: docker_image
-        run: echo "::set-output name=id::$(docker images -q $IMAGE_NAME:$IMAGE_TAG)"
+      - name: Save Docker image as tarball
+        run: docker save -o image.tar $IMAGE_NAME:$IMAGE_TAG
+
+      - name: Upload image artifact
+        uses: actions/upload-artifact@v3
+        with:
+            name: app-image
+            path: image.tar
 
   acceptance:
     name: Acceptance - Run Acceptance Tests
@@ -56,13 +61,14 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to Docker (if needed)
-        # optional, depends if you push/pull images from registry
-        run: echo "Skipping docker login"
 
-      - name: Pull Docker image built in commit
-        run: |
-          docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} || echo "Image not found locally, will build again"
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v3
+        with:
+         name: app-image
+
+      - name: Load Docker image
+        run: docker load -i image.tar
 
       - name: Run container in background
         run: |
