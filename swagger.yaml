@@ -4,6 +4,16 @@ info:
   version: "1.0.0"
   description: Proxy API to interact with FakeStore (simulated auth)
 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
 servers:
   - url: http://localhost:3000
 
@@ -40,3 +50,84 @@ paths:
         '400':
           description: Missing credentials
 
+  /products:
+    post:
+      summary: Add a new product to FakeStore
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - price
+                - description
+                - image
+                - category
+              properties:
+                title:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                image:
+                  type: string
+                category:
+                  type: string
+      responses:
+        '201':
+          description: Product successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  product:
+                    type: object
+        '500':
+          description: Error creating product
+    get:
+      summary: Get all products
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '500':
+          description: Error fetching products
+
+  /products/{id}:
+    get:
+      summary: Get product by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Product ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Product found
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Product not found
+        '500':
+          description: Server error
