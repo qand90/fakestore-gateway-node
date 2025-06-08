@@ -199,13 +199,13 @@ npm test
 ### Run only unit tests
 
 ```bash
-npx jest __tests__/unit
+npm run test:unit
 ```
 
 ### Run only acceptance tests
 
 ```bash
-npx jest __tests__/acceptance
+npm run test:acceptance
 ```
 
 ---
@@ -249,4 +249,3 @@ docker run fakestore-gateway
 ## 📜 License
 
 MIT — feel free to fork or use for interview testing.
-
