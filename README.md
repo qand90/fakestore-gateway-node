@@ -108,6 +108,20 @@ npx jest __tests__/acceptance
 
 ---
 
+# Running with Docker
+
+## Build Docker image
+
+```bash
+docker build -t fakestore-gateway .
+```
+
+## Run the container and publish port 3000
+
+```bash
+docker run -p 3000:3000 fakestore-gateway
+```
+
 ## 📂 Project Structure
 
 ```
