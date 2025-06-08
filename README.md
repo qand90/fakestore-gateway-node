@@ -56,7 +56,7 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 
    Here’s a detailed SLO and performance test spec:
 
-### Summary for Test Implementation
+**Summary for Test Implementation**
 
 * **Setup:** On test start, simulate 20 virtual users.
 * **Authentication:** Each user performs `/auth` to get a token.
@@ -68,16 +68,16 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
   * Ensure error rate ≤ 0.01%.
   * Validate correct responses (status codes and schemas).
 
-## 🎯 Performance Testing Objectives
+**🎯 Performance Testing Objectives**
 
-### Test Parameters
+**Test Parameters**
 
 * **Concurrent users (virtual users):** 20 users running in parallel
 * **Ramp-up duration:** 10 seconds (gradually increase from 0 to 20 users)
 * **Test duration:** 1 minute steady state at 20 users
 * **Error rate threshold:** ≤ 0.01% (i.e., no more than 1 error per 10,000 requests)
 
-### Target Request Rates and Endpoints
+**Target Request Rates and Endpoints**
 
 | Endpoint            | Target RPS (Requests per second) | Approx Requests per Minute | Notes                 |
 | ------------------- | -------------------------------- | -------------------------- | --------------------- |
@@ -85,7 +85,7 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 | `GET /products/:id` | \~16.67 rps                      | 1000                       | Fetch product details |
 | `POST /products`    | \~0.17 rps                       | 10                         | Create new product    |
 
-### Response Time Targets
+**Response Time Targets**
 
 | Endpoint            | 95th Percentile Response Time |
 | ------------------- | ----------------------------- |
@@ -93,7 +93,7 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 | `GET /products/:id` | ≤ 500 ms                      |
 | `POST /products`    | ≤ 600 ms                      |
 
-### Authentication
+**Authentication**
 
 * Each virtual user should **authenticate once** (POST /auth) before sending requests.
 * Use the retrieved token for all subsequent requests in the user’s session.
