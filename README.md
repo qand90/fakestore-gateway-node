@@ -54,6 +54,50 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 3. **Cover with performance tests**
    You will receive requirements for performance coverage. Use appropriate tools (k6, Gatling, Locust, JMetre).
 
+   Here’s a detailed SLO and performance test spec:
+
+### Summary for Test Implementation
+
+* **Setup:** On test start, simulate 20 virtual users.
+* **Authentication:** Each user performs `/auth` to get a token.
+* **Traffic:** Users send requests to endpoints according to the target RPS.
+* **Duration:** Ramp up users evenly over 10 seconds, then sustain load for 1 minute.
+* **Assertions:**
+
+  * Monitor 95th percentile response time per endpoint.
+  * Ensure error rate ≤ 0.01%.
+  * Validate correct responses (status codes and schemas).
+
+## 🎯 Performance Testing Objectives
+
+### Test Parameters
+
+* **Concurrent users (virtual users):** 20 users running in parallel
+* **Ramp-up duration:** 10 seconds (gradually increase from 0 to 20 users)
+* **Test duration:** 1 minute steady state at 20 users
+* **Error rate threshold:** ≤ 0.01% (i.e., no more than 1 error per 10,000 requests)
+
+### Target Request Rates and Endpoints
+
+| Endpoint            | Target RPS (Requests per second) | Approx Requests per Minute | Notes                 |
+| ------------------- | -------------------------------- | -------------------------- | --------------------- |
+| `GET /products`     | \~1.67 rps                       | 100                        | Fetch product list    |
+| `GET /products/:id` | \~16.67 rps                      | 1000                       | Fetch product details |
+| `POST /products`    | \~0.17 rps                       | 10                         | Create new product    |
+
+### Response Time Targets
+
+| Endpoint            | 95th Percentile Response Time |
+| ------------------- | ----------------------------- |
+| `GET /products`     | ≤ 500 ms                      |
+| `GET /products/:id` | ≤ 500 ms                      |
+| `POST /products`    | ≤ 600 ms                      |
+
+### Authentication
+
+* Each virtual user should **authenticate once** (POST /auth) before sending requests.
+* Use the retrieved token for all subsequent requests in the user’s session.
+
 4. **Run the app in Docker**
    Build and start the app using Docker to simulate containerized environments.
 
