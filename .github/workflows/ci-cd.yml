@@ -1,0 +1,115 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: fakestore-gateway
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+
+  commit:
+    name: Commit - Build & Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Save Docker image ID for next jobs
+        id: docker_image
+        run: echo "::set-output name=id::$(docker images -q $IMAGE_NAME:$IMAGE_TAG)"
+
+  acceptance:
+    name: Acceptance - Run Acceptance Tests
+    needs: commit
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20-dind
+        privileged: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker (if needed)
+        # optional, depends if you push/pull images from registry
+        run: echo "Skipping docker login"
+
+      - name: Pull Docker image built in commit
+        run: |
+          docker pull ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} || echo "Image not found locally, will build again"
+
+      - name: Run container in background
+        run: |
+          docker run -d --name test-container -p 3000:3000 ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: Wait for container to be ready
+        run: |
+          for i in {1..10}; do
+            curl -s http://localhost:3000/api-docs && break || sleep 3
+          done
+
+      - name: Install dependencies for acceptance tests
+        run: npm install
+
+      - name: Run acceptance tests
+        run: npm run acceptance-test
+
+      - name: Stop and remove test container
+        if: always()
+        run: |
+          docker stop test-container
+          docker rm test-container
+
+  release:
+    name: Release - Deploy to Production
+    needs: acceptance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }}:latest .
+          docker tag ${{ env.IMAGE_NAME }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Deploy to production
+        run: |
+          echo "Implement your deployment steps here"
