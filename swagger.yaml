@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: FakeStore Proxy API
+  version: "1.0.0"
+  description: Proxy API to interact with FakeStore (simulated auth)
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /auth:
+    post:
+      summary: Simulate user authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Authentication success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+        '400':
+          description: Missing credentials
+
