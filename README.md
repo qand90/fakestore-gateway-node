@@ -116,10 +116,10 @@ npx jest __tests__/acceptance
 docker build -t fakestore-gateway .
 ```
 
-## Run the container and publish port 3000
+## Run the container
 
 ```bash
-docker run -p 3000:3000 fakestore-gateway
+docker run fakestore-gateway
 ```
 
 ## 📂 Project Structure
