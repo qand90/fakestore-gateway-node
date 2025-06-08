@@ -4,15 +4,34 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 
 ---
 
-## 📦 Features
+### 🧪 Interview To-Do List
 
-- 🔐 Simple fake authentication
-- ➕ Add a product (POST)
-- 📄 Get all products (GET)
-- 🔍 Get a product by ID (GET)
-- 🛡️ JWT-like token auth
-- 📜 Swagger UI documentation
-- 🧪 Unit + Acceptance tests
+1. **Read `README.md` and ask questions**
+   Understand the project structure, purpose, and endpoints.
+
+2. **Checkout code to your own branch. Run the app locally**
+   Ensure the application starts correctly. Access the Swagger UI. Check if it works.
+
+3. **Cover with performance tests**
+   You will receive requirements for performance coverage. Use appropriate tools (k6, Gatling, Locust, JMetre).
+
+4. **Run the app in Docker**
+   Build and start the app using Docker to simulate containerized environments.
+
+5. **Run performance tests against Docker container**
+   Ensure tests target the app running inside Docker and analyze behavior under load.
+
+6. **Analyze test results**
+   Review metrics, bottlenecks, response times, throughput, and failure points.
+
+7. **Introduce performance tests into the CI/CD pipeline**
+   Integrate your performance test suite into the GitHub Actions workflow.
+
+8. **Replace upstream service with mocks**
+   Use mocking to isolate upstream dependencies for deterministic tests.
+
+9. **Introduce observability**
+   Implement basic observability to monitor performance behavior.
 
 ---
 
