@@ -34,7 +34,7 @@ jobs:
         run: npm install
 
       - name: Run unit tests
-        run: npm test
+        run: npm test:unit
 
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME:$IMAGE_TAG .
@@ -78,7 +78,7 @@ jobs:
         run: npm install
 
       - name: Run acceptance tests
-        run: npm run acceptance-test
+        run: npm test:acceptance
 
       - name: Stop and remove test container
         if: always()

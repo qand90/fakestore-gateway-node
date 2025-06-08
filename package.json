@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
   "start": "node index.js",
-  "test": "jest"
+  "test": "npm run test:unit && npm run test:acceptance",
+  "test:unit": "jest tests/unit",
+  "test:acceptance": "jest tests/acceptance"
 },
   "keywords": [],
   "author": "",

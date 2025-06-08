@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 3000
 
 # Fix this line to run container correctly 
-CMD_TO_RUN ["npm", "start"]
+CMD ["npm", "start"]
