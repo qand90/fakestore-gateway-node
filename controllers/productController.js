@@ -21,6 +21,9 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
   try {
+
+     await new Promise(resolve => setTimeout(resolve, 1000));
+     
     const response = await axios.get(`${FAKESTORE_API}/products/${req.params.id}`);
     res.json(response.data);
   } catch (err) {
