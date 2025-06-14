@@ -79,11 +79,11 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 
 **Target Request Rates and Endpoints**
 
-| Endpoint            | Target RPS (Requests per second) | Approx Requests per Minute | Notes                 |
-| ------------------- | -------------------------------- | -------------------------- | --------------------- |
-| `GET /products`     | \~1.67 rps                       | 100                        | Fetch product list    |
-| `GET /products/:id` | \~16.67 rps                      | 1000                       | Fetch product details |
-| `POST /products`    | \~0.17 rps                       | 10                         | Create new product    |
+| Endpoint            | Approx Requests per Minute | Notes                 |
+| ------------------- | -------------------------- | --------------------- |
+| `GET /products`     | 100                        | Fetch product list    |
+| `GET /products/:id` | 1000                       | Fetch product details |
+| `POST /products`    | 100                         | Create new product    |
 
 **Response Time Targets**
 
