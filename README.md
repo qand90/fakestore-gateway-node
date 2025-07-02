@@ -116,7 +116,7 @@ This is a lightweight **Node.js gateway app** that authenticates users and proxi
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/fakestore-gateway-node.git
+git clone https://gitlab.com/sl-group4/fakestore-gateway-node.git
 cd fakestore-gateway-node
 ````
 
