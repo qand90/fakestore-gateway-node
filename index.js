@@ -4,10 +4,13 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerDocs = require('./swagger');
 const authMiddleware = require('./middleware/auth');
 const productRoutes = require('./routes/productRoutes');
+const prometheus = require('prom-client');
 
 dotenv.config();
 
 const app = express();
+prometheus.collectDefaultMetrics();
+const register = prometheus.register;
 app.use(express.json());
 app.use(authMiddleware);
 
@@ -19,6 +22,11 @@ app.post('/auth', (req, res) => {
   }
   const token = `fake-jwt-token-${Date.now()}`;
   res.json({ message: 'Authenticated successfully', token });
+});
+
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
 });
 
 // Routes

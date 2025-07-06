@@ -4,11 +4,11 @@
   "description": "This is repository for Performance engineering inteview",
   "main": "index.js",
   "scripts": {
-  "start": "node index.js",
-  "test": "npm run test:unit && npm run test:acceptance",
-  "test:unit": "jest tests/unit",
-  "test:acceptance": "jest tests/acceptance"
-},
+    "start": "node index.js",
+    "test": "npm run test:unit && npm run test:acceptance",
+    "test:unit": "jest tests/unit",
+    "test:acceptance": "jest tests/acceptance"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "js-yaml": "^4.1.0",
+    "prom-client": "^15.1.3",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
