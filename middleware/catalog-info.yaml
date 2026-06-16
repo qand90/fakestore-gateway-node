@@ -1,0 +1,28 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: fakestore-gateway-node-github
+  title: FakeStore Gateway on GitHub Actions (NodeJS)
+  description: >
+    Lightweight NodeJS gateway that authenticates users via JWT and proxies
+    requests to the FakeStore API. GitHub workflow.
+  annotations:
+    github.com/project-slug: qand90/fakestore-gateway-node
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - github
+    - nodejs
+    - express
+    - gateway
+    - rest-api
+    - docker
+    - performance-testing
+
+spec:
+  type: service
+  lifecycle: experimental
+  owner: user:sasha
+  system: fakestore-platform
+
+  providesApis:
+    - fakestore-gateway-api
