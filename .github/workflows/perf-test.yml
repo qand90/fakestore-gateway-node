@@ -1,0 +1,19 @@
+name: K6 Performance Test — fakestore-gateway-node-github
+
+on:
+  workflow_dispatch:   # trigger manually from the Actions tab
+
+jobs:
+  k6:
+    name: Run k6 load test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run k6
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/performance-tests:/tests \
+            grafana/k6:latest run /tests/k6-test.js
