@@ -27,8 +27,8 @@ spec:
   providesApis:
     - fakestore-gateway-api
 
-  dependsOn:
-    - resource:fakestore-api-upstream
+  consumesApis:
+    - fakestore-api-upstream
 
 ---
 apiVersion: backstage.io/v1alpha1
@@ -49,7 +49,7 @@ spec:
 
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Resource
+kind: API
 metadata:
   name: fakestore-api-upstream
   title: FakeStore API (upstream, third-party)
