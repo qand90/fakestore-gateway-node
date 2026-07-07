@@ -1,0 +1,17 @@
+site_name: 'FakeStore Gateway (Node.js)'
+site_description: 'TechDocs for the fakestore-gateway-node service'
+
+repo_url: 'https://github.com/qand90/fakestore-gateway-node'
+edit_uri: 'edit/main/docs/'
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - API Reference: api-reference.md
+  - Local Development: local-development.md
+  - Testing: testing.md
+  - Observability: observability.md
+  - Deployment: deployment.md
+
+plugins:
+  - techdocs-core
