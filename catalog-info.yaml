@@ -26,3 +26,41 @@ spec:
 
   providesApis:
     - fakestore-gateway-api
+
+  dependsOn:
+    - resource:fakestore-api-upstream
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: fakestore-gateway-api
+  title: FakeStore Gateway API
+  description: >
+    REST API exposed by the fakestore-gateway-node service - auth plus
+    proxied product endpoints.
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: user:sasha
+  system: fakestore-platform
+  definition:
+    $text: ./swagger.yaml
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: fakestore-api-upstream
+  title: FakeStore API (upstream, third-party)
+  description: >
+    Public third-party product-catalog API (fakestoreapi.com) that this
+    gateway proxies to. No official OpenAPI spec is published upstream, so
+    this is modeled as a Resource dependency rather than a catalog API entity.
+  links:
+    - url: https://fakestoreapi.com
+      title: FakeStore API docs
+spec:
+  type: third-party-api
+  owner: external
+  system: fakestore-platform
