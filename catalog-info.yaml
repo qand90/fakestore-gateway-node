@@ -55,12 +55,16 @@ metadata:
   title: FakeStore API (upstream, third-party)
   description: >
     Public third-party product-catalog API (fakestoreapi.com) that this
-    gateway proxies to. No official OpenAPI spec is published upstream, so
-    this is modeled as a Resource dependency rather than a catalog API entity.
+    gateway proxies to. No official OpenAPI spec is published upstream;
+    this definition is hand-authored and covers only the endpoints this
+    gateway actually calls (GET/POST /products, GET /products/{id}).
   links:
     - url: https://fakestoreapi.com
       title: FakeStore API docs
 spec:
-  type: third-party-api
+  type: openapi
+  lifecycle: production
   owner: external
   system: fakestore-platform
+  definition:
+    $text: ./fakestore-api-upstream.openapi.yaml
